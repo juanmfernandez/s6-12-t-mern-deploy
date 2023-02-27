@@ -11,7 +11,7 @@ const getUser = async (req, res) => {
     try {
         const { email } = req.body;
         const user = await User.findOne({
-            where: { email: email },
+            where: { email },
             attributes: { exclude: ["password"] },
             include: [
                 {
@@ -74,6 +74,13 @@ const loginUser = async (req, res) => {
 
         const user = await User.findOne({
             where: { email },
+            attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+            include: [
+                {
+                    association: "Addresses",
+                    attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
+                },
+            ]
         });
 
         if (!user || !(await bcrypt.compare(password, user.password))) {
