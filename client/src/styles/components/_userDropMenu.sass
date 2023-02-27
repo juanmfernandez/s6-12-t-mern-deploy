@@ -1,0 +1,76 @@
+.header__containerIcons__user
+    position: relative
+    .userDropBtn
+        display: flex
+        align-items: center
+        color: white
+        width: max-content
+        gap: 3px
+        height: 100%
+        &:hover
+            cursor: pointer
+    .userDropMenu
+        z-index: 10
+        position: absolute
+        width: 270px
+        height: auto
+        background-color: white
+        right: -10%
+        top: 140%
+        padding: 10px
+        border-radius: 5px
+        &::after
+            content: ""
+            width: 25px
+            height: 15px
+            background-color: inherit
+            position: absolute
+            transform: rotate(45deg)
+            top: -5px
+            left: 89%
+        &__btn__primary
+            display: block
+            font-size: 1.125rem
+            background-color: $primary-color
+            text-align: center
+            text-decoration: none
+            width: 100%
+            border-radius: 5px
+            color: #fff
+            font-weight: bold
+            padding: 5px
+            border: none
+            outline: none
+            margin-block: 10px
+        &__btn
+            @extend .userDropMenu__btn__primary
+            background-color: transparent
+            color: #000
+            border: 1px solid #C7C7C7
+            font-weight: normal
+        .google
+            display: flex
+            align-items: flex-end
+            justify-content: center
+            gap: 5px
+        &__divider
+            width: 100%
+            display: flex
+            align-items: center
+            justify-content: center
+            text-align: center
+            gap: 5px
+            &::before
+                content: ""
+                background-color: black
+                height: 1px
+                margin-top: 2px
+                width: 45%
+            &::after
+                content: ""
+                margin-top: 2px
+                background-color: black
+                height: 1px
+                width: 45%
+    svg
+        font-size: 1.5rem

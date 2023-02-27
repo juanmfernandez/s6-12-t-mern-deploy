@@ -1,0 +1,49 @@
+$font-size-icon: 67px
+$font-size-code: 64px
+$font-size-text: 16px
+$font-size-title: 32px
+$font-weight-bold: 700
+$color-white: #fff
+$color-font: #6D1B1B
+$color-btn: #E42E2E
+
+.NotFound
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  font-weight: $font-weight-bold
+  padding: 20px
+  gap: 20px
+  width: 100vw
+  &__message
+    width: 100%
+    max-width: 800px
+    border: #000 solid 1px
+    text-align: center
+    padding: 30px 15px
+    border-radius: 5px
+    gap: 29px
+    display: flex
+    flex-direction: column
+    align-items: center
+    &__icon
+      color: $color-font
+      font-size: $font-size-icon
+    &__codeError
+      color: $color-font
+      font-size: $font-size-code
+    &__title
+      color: $color-font
+      font-size: $font-size-title
+    &__text
+      font-size: $font-size-text
+  &__btn
+    width: 100%
+    max-width: 400px
+    text-align: center
+    background-color: $color-btn
+    color: $color-white
+    text-decoration: none
+    padding: 10px
+    border-radius: 5px

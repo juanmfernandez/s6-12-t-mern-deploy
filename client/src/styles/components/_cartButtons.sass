@@ -1,0 +1,36 @@
+.cart__buttons
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+        width: 90%
+        max-width: 1400px
+        margin-top: 20px
+        &__button
+            display: flex
+            flex-direction: row
+            justify-content: center
+            align-items: center
+            width: 165px
+            padding: 5px 2px
+            font-size: 15px
+            border: 1px solid #b9b9b9
+            border-radius: 5px
+            cursor: pointer
+            color: #111
+        &__button:nth-child(2)
+            background-color: #E42E2E
+            color: #fff
+        &__icons
+            font-size: 25px
+        &__mp
+            padding: 2px
+
+
+@media screen and (min-width: 1050px) 
+    .cart__buttons
+        border: 2px solid #111
+        padding: 10px
+        border-radius: 5px
+        &__button
+            width: 250px

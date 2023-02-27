@@ -1,0 +1,173 @@
+@mixin respond-to ()
+    @media only screen and (min-width: 768px)
+        @content
+
+.container__login
+    display: flex
+    flex-direction: column
+    align-items: center
+    width: 100%
+    height: 100%
+    .login
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        background-color: #111
+        height: 100%
+        width: 90%
+        max-width: 23rem
+        margin-top: 20px
+        border-radius: 5px
+        .login__title
+            color: #fff
+            font-weight: 400
+            margin: 30px 0px
+        .login__subtitle
+            color: #fff
+            font-weight: 400
+        .login__form
+            display: flex
+            flex-direction: column
+            align-items: flex-start
+            width: 90%
+            .login__form__field
+                width: 100%
+                margin-top: 20px
+                padding: 10px
+                border-radius: 5px
+                border: none
+            .login__form__error
+                color: #E42E2E
+                margin-top: 8px
+                margin-bottom: 10px
+                text-align: start
+                font-size: 14px
+            .login__form__password
+                position: relative
+                display: flex
+                flex-direction: row
+                justify-content: center
+                align-items: center
+                width: 100%
+                margin-top: 20px
+                .login__form__password__field
+                    width: 100%
+                    padding: 10px
+                    border-radius: 5px
+                    border: none
+                .login__form__password__eye
+                    position: absolute
+                    right: 0
+                    margin-right: 20px
+                    cursor: pointer
+            .login__form__remember
+                display: flex
+                flex-direction: row
+                justify-content: space-between
+                width: 100%
+                margin-top: 20px
+                .login__form__remember__container
+                    display: flex
+                    flex-direction: row
+                    justify-content: center
+                    align-items: center
+                    .login__form__remember__container__check
+                        color: #fff
+                        cursor: pointer
+                        font-size: 20px
+                    .login__form__remember__container__text
+                        color: #fff
+                        margin-left: 10px
+                        font-size: 14px
+            .login__form__entersession
+                width: 100%
+                margin-top: 20px
+                padding: 8px
+                border-radius: 5px
+                border: none
+                background-color: #E42E2E
+                color: #fff
+                font-size: 16px
+                cursor: pointer
+            .login__form__entergoogle
+                display: flex
+                flex-direction: row
+                justify-content: center
+                align-items: center
+                width: 100%
+                margin-top: 20px
+                padding: 8px
+                border-radius: 5px
+                border: none
+                background-color: #fff
+                color: #111
+                font-size: 16px
+                margin-bottom: 20px
+                cursor: pointer
+                .login__form__entergoogle__logo
+                    font-size: 20px
+                    margin-right: 5px
+    .benefits
+        display: flex
+        flex-direction: column
+        justify-content: flex-start
+        align-items: flex-start
+        width: 90%
+        max-width: 23rem
+        margin-top: 20px
+        margin-bottom: 30px
+        border-radius: 5px
+        background-color: #111
+        .benefits__title
+            width: 100%
+            text-align: center
+            color: #fff
+            font-weight: 500
+            margin-top: 30px
+        .benefits__paragraph
+            color: #fff
+            margin-top: 20px
+            font-size: 14px
+            opacity: .85
+            width: 90%
+            padding-left: 5%
+        .benefits__subtitle
+            color: #fff
+            margin-top: 20px
+            font-size: 16px
+            font-weight: 300
+            padding-left: 5%
+        .benefits__list
+            display: flex
+            flex-direction: column
+            padding-left: 5%
+            .benefits__list__ul
+                color: #fff
+                font-size: 14px
+                padding-left: 25px
+                opacity: .85
+                .benefits__list__ul__item
+                    margin: 3px 0px
+        .benefits__linkregister
+            align-self: center
+            width: 90%
+            background-color: #fff
+            color: #111
+            padding: 8px
+            margin: 20px 0px
+            border-radius: 5px
+            text-align: center
+            text-decoration: none
+            cursor: pointer
+            font-size: 18px
+
+.container__login
+    @include respond-to ()
+        display: flex
+        flex-direction: row
+        justify-content: center
+        gap: 3rem
+        align-items: center
+        .login
+           margin: 5% 0%

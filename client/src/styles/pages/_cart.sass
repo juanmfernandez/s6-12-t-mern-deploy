@@ -1,0 +1,59 @@
+.cart
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    margin: 5% 0%
+    &__container
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+        max-width: 1400px
+    &__offert
+        width: 90%
+        background-color: #FFD439
+        color: #111
+        font-weight: 700
+        padding: 15px 10px
+        font-size: 14px
+        text-align: center
+        line-height: 18px
+        margin-top: 20px
+        border-radius: 5px 
+        max-width: 1400px
+    &__empty
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 90%
+        background-color: #D9D9D9
+        border-radius: 5px
+        padding: 20px
+        height: 80vh
+        &__title
+            font-size: 22px
+            margin-bottom: 20px
+        &__text
+            text-align: center
+            font-size: 16px
+            margin-bottom: 20px
+        &__button
+            background-color: #E42E2E
+            color: #fff
+            padding: 5px 10px
+            text-align: center
+            border-radius: 5px
+
+@media screen and (min-width: 1050px) 
+    .cart
+        margin: 2% 0%
+        &__container
+            flex-direction: row
+            width: 90%
+
+            
+                
+                 

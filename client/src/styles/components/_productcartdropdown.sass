@@ -1,0 +1,82 @@
+.cartdropdown
+    display: flex
+    flex-direction: column
+    position: absolute
+    width: 16.875rem
+    height: 10.9375rem
+    background: #fff
+    padding: 0.75rem
+    border-radius: 5px
+    position: absolute
+    z-index: 10
+    right: -70%
+    top: 180%
+    .cartdropdown__pendant
+        width: 1.625rem
+        height: 1.1875rem
+        position: absolute
+        right:1rem
+        top: -1.1rem
+        border-style: solid
+        border-width: 0 0.8125rem 1.1875rem 0.8125rem
+        border-color: transparent transparent #fff  transparent   
+    .cartdropdown__header
+        display: flex
+        margin-bottom: 0.6875rem
+        .cartdropdown__header__img
+            width: 3.3125rem
+            height: 3.1875rem
+            object-fit: cover
+            border-radius: 5px
+        .cartdropdown__header__info
+            margin-left: 0.9375rem
+            display: flex
+            flex-direction: column
+            align-items: space-around
+            justify-content: space-between 
+            flex-wrap: wrap
+            width: 100%
+            .cartdropdown__header__info__top
+                display: flex
+                flex-wrap: wrap
+                justify-content: space-between
+            .cartdropdown__header__info__bottom
+                display: flex
+                flex-wrap: wrap
+                justify-content: space-between
+            .cartdropdown__header__info__title
+                font-size: 0.875rem
+                font-weight: 700
+            .cartdropdown__header__info__qty, .cartdropdown__header__info__price
+                font-size: 0.875rem
+                font-weight: 700
+                width: 50px
+    .cartdropdown__body
+        display: flex
+        flex-direction: column
+        height: 100%
+        justify-content: space-between
+        .cartdropdown__body__info
+            display: flex
+            justify-content: space-between
+            margin-top: 0.5rem
+            .cartdropdown__body__info__text
+                font-weight: 400
+                font-size: 0.875rem
+            .cartdropdown__body__info__price
+                font-size: 14px
+                font-weight: 700
+                color: $primary-color
+        .cartdropdown__body__btn
+            align-self: center
+            background: $primary-color
+            width: 15.625rem
+            height: 2.5rem
+            font-weight: 700
+            font-size: 18px
+            line-height: 22px
+            color: #fff
+            border: none
+            border-radius: 5px
+            &:hover
+                cursor: pointer

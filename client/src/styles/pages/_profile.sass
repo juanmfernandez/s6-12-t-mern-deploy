@@ -1,0 +1,92 @@
+.profile
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    margin: 5%
+    .profile__buttons
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+        max-width: 315px
+        .profile__buttons__button
+            width: 90%
+            padding: 8px
+            font-size: 15px
+            border-radius: 5px
+            border: 1px solid rgba(0,0 ,0 ,0.3 )
+            background-color: transparent
+            color: #111
+            font-weight: 500
+            margin: 8px 0px
+            cursor: pointer
+            &:hover
+                border: 1px solid rgba(0,0 ,0 ,0.8 )
+            .profile__buttons__button__active
+                border: 1px solid rgba(0,0 ,0 ,0.8 )
+    .profile_info
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+        max-width: 315px
+
+.profile__closed
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    margin: 5%
+    .profile__buttons
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 90%
+        max-width: 315px
+        .profile__buttons__button
+            width: 90%
+            padding: 8px
+            font-size: 15px
+            border-radius: 5px
+            border: 1px solid rgba(0,0 ,0 ,0.3 )
+            background-color: transparent
+            color: #111
+            font-weight: 500
+            margin: 8px 0px
+            cursor: pointer
+            &:hover
+                border: 1px solid rgba(0,0 ,0 ,0.8 )
+            .profile__buttons__button__active
+                border: 1px solid rgba(0,0 ,0 ,0.8 )
+    .profile_info
+        display: flex
+        flex-direction: column
+
+@media screen and (min-width: 767px) 
+    .profile
+        display: flex
+        flex-direction: row
+        justify-content: center
+        align-items: flex-start
+        margin: 1%
+        .profile_info
+            max-width: 1000px
+    .profile__closed
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        height: 80vh
+        margin: 0
+        .profile_info
+            max-width: 1000px
+
+@media screen  and (min-height: 500px)
+    .profile__closed
+        margin: 0
+        height: 80vh
+

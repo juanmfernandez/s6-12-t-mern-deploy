@@ -1,0 +1,120 @@
+@import '../../styles/_variables'
+
+.filterdropdown
+    display: flex
+    flex-direction: column
+    flex-wrap: wrap
+    width: 100%
+    max-width: 25rem
+    margin-top: 1.2rem
+    padding-left: .9rem
+    padding-right: .9rem
+    min-height: 100vh
+    position: relative
+    .filterdropdown__header
+        display: flex
+        justify-content: space-between
+        margin-bottom: .5rem
+        .filterdropdown__header__text
+            font-style: normal
+            font-weight: 700
+            font-size: 1.125rem
+            line-height: 1.375rem
+            margin-bottom: .5rem
+        .filterdropdown__header__close
+            font-size: 1.1rem
+            cursor: pointer
+    .filterdropdown__filtered
+        display: flex
+        flex-direction: column
+        .filterdropdown__filtered__text
+            font-style: normal
+            font-weight: 700
+            font-size: 1.125rem
+        .filterdropdown__filtered__items
+            display: flex
+            flex-wrap: wrap
+            margin-top: 1rem
+            margin-bottom: 1rem
+            gap: 1rem
+            .filterdropdown__filtered__items__item
+                display: flex
+                justify-content: space-evenly
+                align-items: center
+                background: #D6D6D6
+                min-width: 9rem
+                height: 3rem
+                border-radius: .4rem
+                .filterdropdown__filtered__items__item__name
+                    font-weight: 700
+                    font-size: 1rem
+                    line-height: 1.2rem
+                .filterdropdown__filtered__items__item__close
+                    font-size: 1.5rem
+                .filterdropdown__filtered__items__item__icon
+                    font-size: 2rem
+        .filterdropdown__filtered__clean
+            font-size: 1.1rem
+            font-weight: 400
+            line-height: 1.3rem
+            text-decoration-line: underline
+    .filterdropdown__items
+        display: flex
+        flex-direction: column
+        .filterdropdown__items__item
+            border-bottom: 1px solid black
+            padding-top: .7rem
+            padding-bottom: .7rem
+            &:last-child
+                border-bottom: none
+            .filterdropdown__items__item__closed
+                display: flex
+                justify-content: space-between  
+                align-items: center
+                cursor: pointer
+                .filterdropdown__items__item__closed__text
+                    font-style: normal
+                    font-weight: 700
+                    font-size: 1.125rem
+                    line-height: 1.375rem
+                    text-transform: uppercase
+                .filterdropdown__items__item__closed__icon
+                    font-size: 3rem
+                    opacity: .9
+            .filterdropdown__items__item__open
+                    display: flex
+                    gap: 1rem
+                    margin-bottom: 1.1em
+                    margin-left: 1rem
+                    margin-top: 1rem
+                    -webkit-animation: fadein 500ms linear
+                    @keyframes fadein
+                        from
+                            position: relative
+                            top: -2em
+                            opacity: 0
+                        to
+                            top:2em
+                            opacity: 1
+                    .filterdropdown__items__item__open__text
+                        font-size: 1rem
+                        font-weight: 500
+                        line-height: 1.4rem
+                    .filterdropdown__items__item__open__icon
+                        font-size: 1.4rem
+                        
+    .filterdropdown__btn
+        width: 90%
+        height: 2.5rem
+        vertical-align: bottom
+        text-align: center
+        align-self: center
+        background: $primary-color
+        border-radius: .4rem
+        border: none
+        color: #fff
+        font-size: 1.1rem
+        font-weight: 700
+        padding: 0
+        margin-bottom: .75rem
+        margin-top: .75rem

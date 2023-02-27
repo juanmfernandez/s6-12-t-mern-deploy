@@ -1,0 +1,67 @@
+@mixin respond-to-desktop ()
+    @media only screen and (min-width: 768px)
+        @content
+
+.offer
+    width: 100%
+
+.title
+    width: inherit
+    background-color: #FFD439
+    text-align: center
+    padding-block: 10px
+    &__text
+        width: 60%
+        margin: auto
+        font-size: .875rem
+        font-weight: 900
+
+.content
+    width: inherit
+    &__img
+        width: inherit
+        max-height: 543px
+        object-fit: cover
+
+.text-container
+    display: flex
+    flex-direction: column
+    text-align: center
+    gap: 5px
+    &__title
+        font-size: 1.125rem
+        font-weight: 500
+    &__text
+        font-size: .875rem
+        font-weight: 500
+    &__link
+        font-size: 1.125rem
+        font-weight: 700
+        text-decoration: none
+        text-align: center
+        color: #fff
+        background-color: #E42E2E
+        width: 250px
+        margin: auto
+        padding: 10px
+        border-radius: 5px
+
+
+.content
+    @include respond-to-desktop ()
+        position: relative
+        .text-container
+            position: absolute
+            bottom: 15%
+            gap: 0px
+            left: 10%
+            color: #fff
+            text-align: left
+            &__text
+                font-size: 1rem
+
+            &__title
+                font-size: 4rem
+            &__link
+                margin: 0
+                margin-top: 15px
