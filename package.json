@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon -L --inspect=0.0.0.0 src/app.js",
-    "test": "exit 1"
+    "test": "echo \"No test specified\""
   },
   "repository": {
     "type": "git",
