@@ -45,14 +45,14 @@ userRouter.post(
   addUserAddress
 );
 
-userRouter.patch(
-  '/:id',
+userRouter.put(
+  '/:id/password',
   checkSchema(updatePasswordSchema),
   handleValidator,
   updateUserPassword
 );
 
-userRouter.patch(
+userRouter.put(
   "/:id/address/:addId",
   checkSchema(addressSchema),
   handleValidator,
