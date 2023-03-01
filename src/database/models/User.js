@@ -19,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: "productId"
       })
       User.hasMany(models.Review);
-      User.belongsTo(models.Cart);
+      User.belongsTo(models.Cart, {
+        as:"Cart",
+      });
     }
   }
   User.init({

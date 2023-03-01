@@ -80,6 +80,10 @@ const loginUser = async (req, res) => {
                     association: "Addresses",
                     attributes: { exclude: ["createdAt", "updatedAt", "deletedAt"] },
                 },
+                {
+                    association: "Cart",
+                    attributes: { exclude: ["UserId"] },
+                },
             ]
         });
 
