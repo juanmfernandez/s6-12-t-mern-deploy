@@ -54,7 +54,7 @@ const addToCart = async (req, res) => {
 
 //* Remove product from cart
 const remToCart = async (req, res) => {
-    const { idProduct, idCart } = req.query;
+    const { idProduct, idCart, quantity } = req.query;
     if (!idProduct || !idCart) {
         return res.status(400).json({ error: "Both 'idProduct' and 'idCart' parameters are required." });
     }
@@ -62,9 +62,68 @@ const remToCart = async (req, res) => {
         let tokenCartId = getTokenCartId(req);
         const product = await Product.findByPk(parseInt(idProduct));
         const cart = await Cart.findByPk(parseInt(tokenCartId));
-        await cart.decrement({ totalPrice: product.price });
+
         const productRem = await cart.removeProducts(product);
-        res.status(200).json(productRem);
+
+        if(!productRem){
+            throw new Error(`Product not found in this cart`)
+        }  
+
+        await cart.decrement({ totalPrice: (product.price * parseInt(quantity)) });
+
+        const newTotalPrice = await Cart.findByPk(parseInt(tokenCartId), {attributes: ["totalPrice"]})
+
+        res.status(200).json({ 
+            message: `Product ${idProduct} removed succesfully.`,
+            totalPrice: newTotalPrice.totalPrice,
+            idProduct
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+}
+
+//* Modify quantity of a product in cart
+const quantityHandler = async (req, res) => {
+    const { quantity, modifier } = req.query || req.body;
+    const { id } = req.params;
+
+    if (!id || !modifier) {
+        return res.status(400).json({ error: "Product id and modifier must be provided." });
+    }
+
+    try {
+        let tokenCartId = getTokenCartId(req);
+        const product = await Product.findByPk(parseInt(id));
+        const cart = await Cart.findByPk(parseInt(tokenCartId));
+        const itemToUpdate = await ProductsInCart.findOne({where: { ProductId : id}})
+
+        const newQuantityToAdd = (itemToUpdate.dataValues.quantity + parseInt(quantity))
+        const newQuantityToRem = (itemToUpdate.dataValues.quantity - parseInt(quantity))
+
+        if (newQuantityToAdd > product.dataValues.quantityInStock) {
+            throw new Error(`Not enough product stock`)
+        }
+
+        if (newQuantityToRem < product.dataValues.quantityInStock) {
+            throw new Error(`There are no more products to remove`)
+        }
+
+        if (modifier === "add") {
+            await itemToUpdate.update({quantity: newQuantityToAdd});
+        }else{
+            await itemToUpdate.update({quantity: newQuantityToRem});
+        }
+        /*
+            await cart.decrement({ totalPrice: (product.price * parseInt(quantity)) });
+        */
+        const newTotalPrice = await Cart.findByPk(parseInt(tokenCartId), {attributes: ["totalPrice"]})
+
+        res.status(200).json({ 
+            message: `Product ${id} removed succesfully.`,
+            totalPrice: newTotalPrice.totalPrice,
+            id
+        });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -119,4 +178,4 @@ const deleteCart = async (req, res) => {
     }
 }
 
-module.exports = { getCart, addToCart, remToCart, deleteCart }
+module.exports = { getCart, addToCart, remToCart, deleteCart, quantityHandler }
