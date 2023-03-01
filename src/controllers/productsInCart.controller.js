@@ -65,15 +65,15 @@ const remToCart = async (req, res) => {
 
         const productRem = await cart.removeProducts(product);
 
-        if(!productRem){
+        if (!productRem) {
             throw new Error(`Product not found in this cart`)
-        }  
+        }
 
         await cart.decrement({ totalPrice: (product.price * parseInt(quantity)) });
 
-        const newTotalPrice = await Cart.findByPk(parseInt(tokenCartId), {attributes: ["totalPrice"]})
+        const newTotalPrice = await Cart.findByPk(parseInt(tokenCartId), { attributes: ["totalPrice"] })
 
-        res.status(200).json({ 
+        res.status(200).json({
             message: `Product ${idProduct} removed succesfully.`,
             totalPrice: newTotalPrice.totalPrice,
             idProduct
@@ -85,7 +85,7 @@ const remToCart = async (req, res) => {
 
 //* Modify quantity of a product in cart
 const quantityHandler = async (req, res) => {
-    const { quantity, modifier } = req.query || req.body;
+    const { quantity, modifier } = req.query;
     const { id } = req.params;
 
     if (!id || !modifier) {
@@ -96,7 +96,12 @@ const quantityHandler = async (req, res) => {
         let tokenCartId = getTokenCartId(req);
         const product = await Product.findByPk(parseInt(id));
         const cart = await Cart.findByPk(parseInt(tokenCartId));
-        const itemToUpdate = await ProductsInCart.findOne({where: { ProductId : id}})
+        const itemToUpdate = await ProductsInCart.findOne({
+            where: {
+                ProductId: id,
+                CartId: tokenCartId
+            }
+        })
 
         const newQuantityToAdd = (itemToUpdate.dataValues.quantity + parseInt(quantity))
         const newQuantityToRem = (itemToUpdate.dataValues.quantity - parseInt(quantity))
@@ -105,22 +110,26 @@ const quantityHandler = async (req, res) => {
             throw new Error(`Not enough product stock`)
         }
 
-        if (newQuantityToRem < product.dataValues.quantityInStock) {
+        if (newQuantityToRem < 0) {
             throw new Error(`There are no more products to remove`)
         }
 
-        if (modifier === "add") {
-            await itemToUpdate.update({quantity: newQuantityToAdd});
-        }else{
-            await itemToUpdate.update({quantity: newQuantityToRem});
+        let msg;
+        if (parseInt(modifier) === 1) {
+            await itemToUpdate.update({ quantity: newQuantityToAdd });
+            await cart.increment({ totalPrice: (product.dataValues.price * quantity) });
+            msg = `${quantity} product ${id} added succesfully to cart.`;
+        } else {
+            await itemToUpdate.update({ quantity: newQuantityToRem });
+            await cart.decrement({ totalPrice: (product.dataValues.price * quantity) });
+            msg = `${quantity} product ${id} removed succesfully of cart.`;
         }
-        /*
-            await cart.decrement({ totalPrice: (product.price * parseInt(quantity)) });
-        */
-        const newTotalPrice = await Cart.findByPk(parseInt(tokenCartId), {attributes: ["totalPrice"]})
 
-        res.status(200).json({ 
-            message: `Product ${id} removed succesfully.`,
+        const newTotalPrice = await Cart.findByPk(parseInt(tokenCartId), { attributes: ["totalPrice"] })
+
+        res.status(200).json({
+            message: msg,
+            newQuantity: parseInt(modifier) === 1 ? newQuantityToAdd : newQuantityToRem,
             totalPrice: newTotalPrice.totalPrice,
             id
         });
