@@ -1,19 +1,26 @@
 const { Product, User, Cart, Color, Size, ProductsInCart } = require('../database/models');
 const { validateToken } = require("../helpers/jwtHandler");
 
+//* Verify that user's token contains a Cart and return his id
+const getTokenCartId = (req) => {
+    let token, tokenCartId;
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1]
+    }
+    const decodedToken = validateToken(token);
+    if (!decodedToken.user.Cart) {
+        throw new Error(`User does not have a cart`)
+    }
+    return tokenCartId = decodedToken.user.Cart.id;
+}
+
 //* Add product to cart
 const addToCart = async (req, res) => {
 
     const { idProduct, quantity, size, color, last } = req.body;
 
-    if (!idProduct) {
-        return res.status(400).json({ error: "'idProduct' parameter is required." });
-    }
-
-    const decodedToken = validateToken(req.headers.authorization.split(' ')[1]);
-    let tokenCartId = decodedToken.user.Cart.id;
-
     try {
+        let tokenCartId = getTokenCartId(req);
 
         const product = await Product.findByPk(parseInt(idProduct));
         const cart = await Cart.findByPk(parseInt(tokenCartId));
@@ -27,10 +34,10 @@ const addToCart = async (req, res) => {
             const productAdded = await ProductsInCart.create({
                 ProductId: idProduct,
                 CartId: tokenCartId,
-                quantity, 
-                size, 
-                color, 
-                last                
+                quantity,
+                size,
+                color,
+                last
             });
 
             await cart.increment({ totalPrice: (product.dataValues.price * quantity) });
@@ -52,8 +59,9 @@ const remToCart = async (req, res) => {
         return res.status(400).json({ error: "Both 'idProduct' and 'idCart' parameters are required." });
     }
     try {
+        let tokenCartId = getTokenCartId(req);
         const product = await Product.findByPk(parseInt(idProduct));
-        const cart = await Cart.findByPk(parseInt(idCart));
+        const cart = await Cart.findByPk(parseInt(tokenCartId));
         await cart.decrement({ totalPrice: product.price });
         const productRem = await cart.removeProducts(product);
         res.status(200).json(productRem);
@@ -69,7 +77,9 @@ const getCart = async (req, res) => {
         return res.status(400).json({ error: "The 'idCart' parameter is required." });
     }
     try {
-        const cart = await Cart.findByPk(idCart, {
+        let tokenCartId = getTokenCartId(req);
+
+        const cart = await Cart.findByPk(tokenCartId, {
             include: {
                 model: Product,
                 attributes: ["id", "name", "description", "price", "quantityInStock", "createdAt"],
@@ -97,10 +107,12 @@ const deleteCart = async (req, res) => {
     if (!idCart) {
         return res.status(400).json({ error: "The 'idCart' parameter is required." });
     }
+
     try {
-        const cart = await Cart.findByPk(parseInt(idCart), { include: Product });
+        let tokenCartId = getTokenCartId(req);
+        const cart = await Cart.findByPk(parseInt(tokenCartId), { include: Product });
         await cart.removeProducts(cart.dataValues.Products);
-        await Cart.update({ totalPrice: 0 }, { where: { id: parseInt(idCart) } });
+        await Cart.update({ totalPrice: 0 }, { where: { id: parseInt(tokenCartId) } });
         res.status(200).json(cart);
     } catch (error) {
         res.status(400).json({ message: error.message });
