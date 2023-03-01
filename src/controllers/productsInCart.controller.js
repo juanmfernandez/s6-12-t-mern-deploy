@@ -1,23 +1,32 @@
 const { Product, User, Cart, Color, Size, ProductsInCart } = require('../database/models');
+const { validateToken } = require("../helpers/jwtHandler");
 
 //* Add product to cart
 const addToCart = async (req, res) => {
 
-    const { idProduct, idCart, quantity, size, color, last } = req.body;
+    const { idProduct, quantity, size, color, last } = req.body;
 
-    if (!idProduct || !idCart) {
-        return res.status(400).json({ error: "Both 'idProduct' and 'idCart' parameters are required." });
+    if (!idProduct) {
+        return res.status(400).json({ error: "'idProduct' parameter is required." });
     }
+
+    const decodedToken = validateToken(req.headers.authorization.split(' ')[1]);
+    let tokenCartId = decodedToken.user.Cart.id;
 
     try {
 
         const product = await Product.findByPk(parseInt(idProduct));
-        const cart = await Cart.findByPk(parseInt(idCart));
+        const cart = await Cart.findByPk(parseInt(tokenCartId));
+
+        if (!product || !cart) {
+            let msg = !cart ? `Cart ${tokenCartId}` : `Product ${idProduct}`
+            throw new Error(`${msg} not found`)
+        }
 
         if (product.quantityInStock > 0 && product.quantityInStock >= quantity) {
             const productAdded = await ProductsInCart.create({
                 ProductId: idProduct,
-                CartId: idCart,
+                CartId: tokenCartId,
                 quantity, 
                 size, 
                 color, 
@@ -32,7 +41,7 @@ const addToCart = async (req, res) => {
                 .json({ message: "Cannot add to cart, out of stock." });
         }
     } catch (error) {
-        res.status(400).json(error.message);
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -49,7 +58,7 @@ const remToCart = async (req, res) => {
         const productRem = await cart.removeProducts(product);
         res.status(200).json(productRem);
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -70,43 +79,15 @@ const getCart = async (req, res) => {
                         attributes: ["id", "imgUrl"],
                     },
                     {
-                        association: "Size",
-                        attributes: ["id", "sizeNumberAr"],
-                        through: {
-                            attributes: []
-                        },
-                    },
-                    {
-                        association: "Categories",
-                        attributes: ["id", "name"],
-                        through: {
-                            attributes: []
-                        },
-                    },
-                    {
-                        association: "Colours",
-                        attributes: ["id", "colorName", "colorValue"],
-                        through: {
-                            attributes: []
-                        },
-                    },
-                    {
                         association: "Brand",
                         attributes: ["id", "name", "imgBrand"],
-                    },
-                    {
-                        association: "Last",
-                        attributes: ["id", "nameShoelast"],
-                        through: {
-                            attributes: []
-                        }
                     },
                 ],
             },
         });
         res.status(200).json(cart);
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -122,7 +103,7 @@ const deleteCart = async (req, res) => {
         await Cart.update({ totalPrice: 0 }, { where: { id: parseInt(idCart) } });
         res.status(200).json(cart);
     } catch (error) {
-        res.status(400).json(error);
+        res.status(400).json({ message: error.message });
     }
 }
 
