@@ -160,10 +160,6 @@ const getCart = async (req, res) => {
 
 //* Empty cart
 const deleteCart = async (req, res) => {
-    const { idCart } = req.query;
-    if (!idCart) {
-        return res.status(400).json({ error: "The 'idCart' parameter is required." });
-    }
 
     try {
         let tokenCartId = getTokenCartId(req);
@@ -171,9 +167,11 @@ const deleteCart = async (req, res) => {
         await cart.removeProducts(cart.dataValues.Products);
         await Cart.update({ totalPrice: 0 }, { where: { id: parseInt(tokenCartId) } });
         res.status(200).json(cart);
+
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
+
 }
 
 module.exports = { getCart, addToCart, remToCart, deleteCart, quantityHandler }

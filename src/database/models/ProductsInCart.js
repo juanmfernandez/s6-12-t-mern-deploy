@@ -14,10 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.BOOLEAN,
     size: DataTypes.STRING,
     color: DataTypes.STRING,
-    last: DataTypes.STRING
+    last: DataTypes.STRING,
+    deletedAt: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'ProductsInCart',
+    paranoid: true
   });
   return ProductsInCart;
 };
