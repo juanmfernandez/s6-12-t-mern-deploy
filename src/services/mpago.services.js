@@ -3,9 +3,10 @@ const mercadopago = require('mercadopago');
 const clientSecret = process.env.CLIENT_SECRET;
 const clientId = process.env.CLIENT_ID;
 
-const generatePaymentLink = async (items, payer, external_reference, req) => {
+const generatePaymentLink = async (items, payer, external_reference, req, res) => {
 
-    const server = req.headers.origin || 'http://localhost:3001'; // or deploy url
+    //const server = req.headers.origin || 'http://localhost:3001'; // or deploy url
+    const server = res.req.headers.host;
     const success = `${server}/mpago/success`;
     const failure = `${server}/mpago/failure`;
     const pending = `${server}/mpago/pending`;
@@ -29,7 +30,9 @@ const generatePaymentLink = async (items, payer, external_reference, req) => {
 
         const preference = mercadopago.preferences.create(preferenceConfig)
 
-        return preference
+        //return preference
+        //test de origin
+        return server
 
     } catch (error) {
         console.log(({ message: (error) }))

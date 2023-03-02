@@ -49,7 +49,7 @@ const createCheckout = async (req, res) => {
 
     const external_reference = newOrder.dataValues.id.toString();
 
-    let link = await generatePaymentLink(items, payer, external_reference, req);
+    let link = await generatePaymentLink(items, payer, external_reference, req, res);
 
     res.status(201).json({ "link": link?.body.init_point })
 
