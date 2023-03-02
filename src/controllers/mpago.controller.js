@@ -1,38 +1,42 @@
-const { generatePaymentLink, getPaymentStatus } = require('../services/mpago.services');
-const { User, Order } = require("../database/models");
+const { generatePaymentLink } = require('../services/mpago.services');
+const { User, Order, Cart } = require("../database/models");
+const { getTokenCartId } = require('../helpers/getTokenCart');
+
 const createCheckout = async (req, res) => {
   try {
 
-    if (!req.query.email) {
-      throw new Error("Please provide an user email")
-    }
+    let tokenCartId = getTokenCartId(req);
 
-    const email = req.query.email;
-    const orderId = Number(req.query.orderId);
+    const cart = await Cart.findByPk(parseInt(tokenCartId));
 
+    const userId = req.user.id;
+    
     const customer = await User.findOne({
-      where: { email },
+      where: { id: userId },
     });
 
     if (customer === null) {
-      throw new Error(`E-mail ${email} not found in database`)
+      throw new Error(`User not found in database`)
     }
 
-    const orderToPay = await Order.findOne({
-      where: { id: orderId },
-    });
+    const [newOrder, created] = await Order.findOrCreate({
+      where: { userId: customer.dataValues.id },
+      defaults: {
+        totalPrice: cart.dataValues.totalPrice
+      }
+    })
 
-    if (orderToPay === null) {
-      throw new Error(`Order ${orderId} not found in database`)
+    if (newOrder.dataValues.totalPrice != cart.dataValues.totalPrice) {
+      newOrder.update({ totalPrice : parseInt(cart.dataValues.totalPrice) })
     }
 
     const items = [{
-      id: orderId,
+      id: newOrder.dataValues.id,
       currency_id: "ARS",
       title: "A Tempo order",
       description: "A Tempo items",
       quantity: 1,
-      unit_price: orderToPay.dataValues.totalPrice,
+      unit_price: parseFloat(cart.dataValues.totalPrice),
     }];
 
     const payer = {
@@ -42,9 +46,10 @@ const createCheckout = async (req, res) => {
       email: customer.dataValues.email,
     }
 
-    const external_reference = orderId.toString();
+    const external_reference = newOrder.dataValues.id.toString();
 
     let link = await generatePaymentLink(items, payer, external_reference, req);
+
     res.status(201).json({ "link": link?.body.init_point })
 
   } catch (error) {
@@ -60,11 +65,9 @@ const handlePayment = async (req, res) => {
       throw new Error("Please provide payment_id, status and external_reference")
     }
 
-    const orderId = Number(external_reference);
-
     const orderUpdate = await Order.update(
       { status: status, paymentId: payment_id },
-      { where: { id: orderId } }
+      { where: { id: Number(external_reference) } }
     );
 
     res.status(200).json(({ message: `Payment ${payment_id} was ${status}` }))

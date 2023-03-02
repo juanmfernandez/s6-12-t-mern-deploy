@@ -19,7 +19,7 @@ const protectRouters = async (req, res, next) => {
                 message: 'User not found'
             })
         }
-
+        req.user = decoded.user
         next()
 
     } catch (error) {

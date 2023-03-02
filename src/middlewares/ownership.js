@@ -13,7 +13,7 @@ const ownership = async (req, res, next) => {
         
         if (!decoded.user.isAdmin) {
             if (decoded.user.id != req.params.id) {
-                return false;
+                throw new Error(`Params id must be provided`)
             }
         }
 
