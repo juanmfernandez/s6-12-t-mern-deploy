@@ -49,10 +49,9 @@ const createCheckout = async (req, res) => {
 
     const external_reference = newOrder.dataValues.id.toString();
 
-    let link = await generatePaymentLink(items, payer, external_reference, req, res);
+    let link = await generatePaymentLink(items, payer, external_reference, req);
 
-    //res.status(201).json({ "link": link?.body.init_point })
-    res.status(201).json({ "link": link })
+    res.status(201).json({ "link": link?.body.init_point })
 
   } catch (error) {
     res.status(400).json(({ message: error.message }))

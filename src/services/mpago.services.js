@@ -3,13 +3,12 @@ const mercadopago = require('mercadopago');
 const clientSecret = process.env.CLIENT_SECRET;
 const clientId = process.env.CLIENT_ID;
 
-const generatePaymentLink = async (items, payer, external_reference, req, res) => {
+const generatePaymentLink = async (items, payer, external_reference, req) => {
 
-    //const server = req.headers.origin || 'http://localhost:3001'; // or deploy url
-    const server = res.req.headers.host;
-    const success = `${server}/mpago/success`;
-    const failure = `${server}/mpago/failure`;
-    const pending = `${server}/mpago/pending`;
+    const server = req.headers.origin || 'http://localhost:5173'; // 'https://atempo.netlify.app'
+    const success = `${server}/success`;
+    const failure = `${server}/failure`;
+    const pending = `${server}/pending`;
 
     try {
 
@@ -30,9 +29,7 @@ const generatePaymentLink = async (items, payer, external_reference, req, res) =
 
         const preference = mercadopago.preferences.create(preferenceConfig)
 
-        //return preference
-        //test de origin
-        return server
+        return preference
 
     } catch (error) {
         console.log(({ message: (error) }))
