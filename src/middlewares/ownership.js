@@ -10,7 +10,7 @@ const ownership = async (req, res, next) => {
         }
 
         const decoded = validateToken(token);
-        
+
         if (!decoded.user.isAdmin) {
             if (decoded.user.id != req.params.id) {
                 throw new Error(`Params id must be provided`)

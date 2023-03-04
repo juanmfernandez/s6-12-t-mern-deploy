@@ -8,7 +8,7 @@ const getPagingData = (count, page, limit) => {
     page = Number(page);
     const currentPage = page ? +page : 0;
     const prevPage = page ? page - 1 : -1;
-    const nextPage = page<totalPages ? page + 1 : page - 1;    
+    const nextPage = page < totalPages ? page + 1 : page - 1;
     return { totalPages, currentPage, nextPage, prevPage };
 }
 

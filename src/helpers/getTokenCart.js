@@ -14,4 +14,3 @@ const getTokenCartId = (req) => {
 }
 
 module.exports = { getTokenCartId };
-  

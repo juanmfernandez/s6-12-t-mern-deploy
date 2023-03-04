@@ -17,7 +17,7 @@ const migrationStorage = 'sequelize';
 const migrationStorageTableName = 'migrations';
 
 
-module.exports ={
+module.exports = {
     host,
     username,
     database,

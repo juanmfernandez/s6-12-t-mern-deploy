@@ -2,7 +2,7 @@ const fs = require('fs');
 const multer = require("multer")
 const path = require("path")
 const { v4: uuid } = require("uuid");
-const {initializeApp} = require("firebase/app")
+const { initializeApp } = require("firebase/app")
 const { getStorage, ref, uploadBytes, getDownloadURL } = require("firebase/storage")
 
 

@@ -36,13 +36,13 @@ const updateUserAddress = async (req, res) => {
         const { street, number, city, state, zipCode, country, comments } = req.body;
 
         const userExists = await User.findByPk(id, {});
-        
+
         const addressToUpdate = await Address.findByPk(addId, {});
 
         if (addressToUpdate === null || userExists === null) {
             throw new Error(`Address or user not found in database`)
         }
-        if (addressToUpdate.dataValues.userId !=  id) {
+        if (addressToUpdate.dataValues.userId != id) {
             throw new Error(`This Address is not of user ${id}`)
         }
 

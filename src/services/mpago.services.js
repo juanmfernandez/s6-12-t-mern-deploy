@@ -5,7 +5,7 @@ const clientId = process.env.CLIENT_ID;
 
 const generatePaymentLink = async (items, payer, external_reference, req) => {
 
-    const server = req.headers.origin || 'http://localhost:5173'; // 'https://atempo.netlify.app'
+    const server = 'https://atempo.netlify.app';
     const success = `${server}/success`;
     const failure = `${server}/failure`;
     const pending = `${server}/pending`;

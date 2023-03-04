@@ -71,7 +71,9 @@ const handlePayment = async (req, res) => {
       { where: { id: Number(external_reference) } }
     );
 
-    deleteCart(req, res, req.user.Cart.id)
+    const cart = await Cart.findByPk(parseInt(req.user.Cart.id), { include: Product });
+    await cart.removeProducts(cart.dataValues.Products);
+    await Cart.update({ totalPrice: 0 }, { where: { id: parseInt(tokenCreq.user.Cart.id) } });
 
     res.status(200).json(({ message: `Payment ${payment_id} was ${status}` }))
 

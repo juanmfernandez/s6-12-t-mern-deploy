@@ -15,10 +15,10 @@ const { validateSizeData } = require('../validators/size.validator')
 const { route } = require('./brands.routes')
 
 // Routes
-routerSize.get('/',showAllSizes)
-routerSize.get('/:id',showSizeById)
+routerSize.get('/', showAllSizes)
+routerSize.get('/:id', showSizeById)
 routerSize.post('/', validateSizeData, createSize)
-routerSize.put('/:id',validateSizeData,updateSize)
-routerSize.delete('/:id',deleteSize)
+routerSize.put('/:id', validateSizeData, updateSize)
+routerSize.delete('/:id', deleteSize)
 
 module.exports = routerSize

@@ -31,8 +31,8 @@ app.use('/products', routerProduct);
 app.use('/users', routerUsers);
 app.use('/colors', routerColor);
 app.use('/mpago', checkoutRouter);
-app.use('/cart',routerCart);
-app.use('/size',routerSize);
+app.use('/cart', routerCart);
+app.use('/size', routerSize);
 
 app.use((req, res, next) => {
     res.status(200).json({

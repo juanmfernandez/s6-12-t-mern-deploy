@@ -1,11 +1,11 @@
 const Router = require('express');
 
-const { 
-    productList, 
-    productDetail, 
-    saveProduct, 
-    updateProduct, 
-    deleteProduct, 
+const {
+    productList,
+    productDetail,
+    saveProduct,
+    updateProduct,
+    deleteProduct,
 } = require("../controllers/product.controller")
 
 const protectRouters = require('../middlewares/protect.middleware')
@@ -31,17 +31,17 @@ routerProduct.post('/review/:prodId/user/:id', ownership, addReview)
 
 routerProduct.delete('/:prodId/user/:usId', delFavorites)
 
-routerProduct.post('/save', 
-    checkMultipart, 
-    handleUploadFirebase, 
-    checkSchema(productSchema), 
-    handleValidator, 
+routerProduct.post('/save',
+    checkMultipart,
+    handleUploadFirebase,
+    checkSchema(productSchema),
+    handleValidator,
     saveProduct
 );
 
-routerProduct.put('/update/:id', 
-    checkSchema(productSchema), 
-    handleValidator, 
+routerProduct.put('/update/:id',
+    checkSchema(productSchema),
+    handleValidator,
     updateProduct
 );
 
